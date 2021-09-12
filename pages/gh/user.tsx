@@ -20,10 +20,10 @@ type UserInfo = {
 async function fetchUserInfo(userId: string): Promise<UserInfo | null> {
     return await fetch(`https://api.github.com/users/${encodeURIComponent(userId)}`)
         .then(response => {
-            console.log(response.status);
+            console.log("status code", response.status);
             // エラーレスポンスが返されたことを検知する
             if (!response.ok) {
-                console.error("エラーレスポンス", response);
+                console.error("error response", response);
             } else {
                 return response.json();
             }
@@ -36,7 +36,7 @@ async function fetchUserInfo(userId: string): Promise<UserInfo | null> {
                 publicRepos: userInfo.public_repos
             };
         }).catch(error => {
-            console.error(error);
+            console.error("catch error", error);
             return null;
         });
 }
