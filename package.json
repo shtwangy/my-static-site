@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "export": "next build && next export",
-    "serve": "npm run export && serve ./out"
+    "serve": "npm run export && serve ./out",
+    "format:check": "prettier --check .",
+    "format:fix": "prettier --write ."
   },
   "dependencies": {
     "fuse.js": "6.4.6",
@@ -17,6 +19,7 @@
   },
   "devDependencies": {
     "@types/react": "17.0.19",
+    "prettier": "2.4.1",
     "serve": "^12.0.0",
     "typescript": "4.3.5"
   }
