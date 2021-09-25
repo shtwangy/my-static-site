@@ -1,26 +1,31 @@
-import {useState} from "react";
-import dynamic from 'next/dynamic'
+import { useState } from "react";
+import dynamic from "next/dynamic";
 
-const DynamicComponentBasic = dynamic(() => import('../components/hello1'))
+const DynamicComponentBasic = dynamic(() => import("../components/hello1"));
 
 const DynamicComponentWithCustomLoading = dynamic(
-    () => import('../components/hello2'),
-    { loading: () => <p>...</p> }
-)
+  () => import("../components/hello2"),
+  { loading: () => <p>...</p> }
+);
 
 const DynamicComponentWithNoSSR = dynamic(
-    () => import('../components/hello3'),
-    { ssr: false }
-)
+  () => import("../components/hello3"),
+  { ssr: false }
+);
 
-const DynamicComponentNamedExport = dynamic<{}>(
-    () => import('../components/NamedExportComponent').then(({NamedExportComponent}) => NamedExportComponent)
-)
+const DynamicComponentNamedExport = dynamic<{}>(() =>
+  import("../components/NamedExportComponent").then(
+    ({ NamedExportComponent }) => NamedExportComponent
+  )
+);
 
-import type {NamedExportComponentProps} from "../components/NamedExportComponent";
+import type { NamedExportComponentProps } from "../components/NamedExportComponent";
 const DynamicComponentNamedExportWithProps = dynamic<NamedExportComponentProps>(
-    () => import('../components/NamedExportComponent').then(({NamedExportComponentWithProps}) => NamedExportComponentWithProps)
-)
+  () =>
+    import("../components/NamedExportComponent").then(
+      ({ NamedExportComponentWithProps }) => NamedExportComponentWithProps
+    )
+);
 
 // Next.js v11.1.1でReact.lazyがサポートされた
 // https://github.com/vercel/next.js/releases/tag/v11.1.1
@@ -35,49 +40,49 @@ const DynamicComponentNamedExportWithProps = dynamic<NamedExportComponentProps>(
 //     { suspense: true }
 // )
 
-const names = ['Tim', 'Joe', 'Bel', 'Max', 'Lee']
+const names = ["Tim", "Joe", "Bel", "Max", "Lee"];
 
 export default function Home() {
-    const [showMore, setShowMore] = useState(false)
-  const [results, setResults] = useState<any>()
+  const [showMore, setShowMore] = useState(false);
+  const [results, setResults] = useState<any>();
   return (
-      <>
-          {/* すぐに読み込まれるが、バンドルは別になる */}
-          <DynamicComponentBasic />
+    <>
+      {/* すぐに読み込まれるが、バンドルは別になる */}
+      <DynamicComponentBasic />
 
-          {/* 読み込み中にdynamicに設定したローダーを表示する */}
-          <DynamicComponentWithCustomLoading />
+      {/* 読み込み中にdynamicに設定したローダーを表示する */}
+      <DynamicComponentWithCustomLoading />
 
-          {/* クライアント側のみで読み込まれる */}
-          <DynamicComponentWithNoSSR />
+      {/* クライアント側のみで読み込まれる */}
+      <DynamicComponentWithNoSSR />
 
-          {/* 名前付きExportされているコンポーネント */}
-          <DynamicComponentNamedExport />
-          <DynamicComponentNamedExportWithProps title={"タイトル"} />
+      {/* 名前付きExportされているコンポーネント */}
+      <DynamicComponentNamedExport />
+      <DynamicComponentNamedExportWithProps title={"タイトル"} />
 
-          {/* Load on demand */}
-          {showMore && <DynamicComponentBasic />}
-          <button onClick={() => setShowMore(!showMore)}>Toggle Show More</button>
-      <div style={{ marginTop: '1rem' }}>
+      {/* Load on demand */}
+      {showMore && <DynamicComponentBasic />}
+      <button onClick={() => setShowMore(!showMore)}>Toggle Show More</button>
+      <div style={{ marginTop: "1rem" }}>
         <input
-            type="text"
-            placeholder="Search"
-            onChange={async (e) => {
-              const { value } = e.currentTarget
-              // Dynamically load fuse.js
-              const Fuse = (await import('fuse.js')).default
-              const fuse = new Fuse(names)
+          type="text"
+          placeholder="Search"
+          onChange={async (e) => {
+            const { value } = e.currentTarget;
+            // Dynamically load fuse.js
+            const Fuse = (await import("fuse.js")).default;
+            const fuse = new Fuse(names);
 
-              setResults(fuse.search(value))
-            }}
+            setResults(fuse.search(value));
+          }}
         />
         <pre>Results: {JSON.stringify(results, null, 2)}</pre>
       </div>
-          {/*<div>*/}
-          {/*    <Suspense fallback={`loading`}>*/}
-          {/*        <DynamicLazyComponent />*/}
-          {/*    </Suspense>*/}
-          {/*</div>*/}
-      </>
-  )
+      {/*<div>*/}
+      {/*    <Suspense fallback={`loading`}>*/}
+      {/*        <DynamicLazyComponent />*/}
+      {/*    </Suspense>*/}
+      {/*</div>*/}
+    </>
+  );
 }

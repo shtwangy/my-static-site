@@ -1,7 +1,7 @@
-import type {FC} from "react"
+import type { FC } from "react";
 
 const Hello4: FC = () => {
-    return <p>Hello World 4 (imported dynamically) </p>
-}
+  return <p>Hello World 4 (imported dynamically) </p>;
+};
 
-export default Hello4
+export default Hello4;
