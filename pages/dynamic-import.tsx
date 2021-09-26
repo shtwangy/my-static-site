@@ -1,28 +1,28 @@
 import { useState } from "react";
 import dynamic from "next/dynamic";
 
-const DynamicComponentBasic = dynamic(() => import("../components/hello1"));
+const DynamicComponentBasic = dynamic(() => import("../components/DynamicImport/hello1"));
 
 const DynamicComponentWithCustomLoading = dynamic(
-  () => import("../components/hello2"),
+  () => import("../components/DynamicImport/hello2"),
   { loading: () => <p>...</p> }
 );
 
 const DynamicComponentWithNoSSR = dynamic(
-  () => import("../components/hello3"),
+  () => import("../components/DynamicImport/hello3"),
   { ssr: false }
 );
 
 const DynamicComponentNamedExport = dynamic<{}>(() =>
-  import("../components/NamedExportComponent").then(
+  import("../components/DynamicImport/NamedExportComponent").then(
     ({ NamedExportComponent }) => NamedExportComponent
   )
 );
 
-import type { NamedExportComponentProps } from "../components/NamedExportComponent";
+import type { NamedExportComponentProps } from "../components/DynamicImport/NamedExportComponent";
 const DynamicComponentNamedExportWithProps = dynamic<NamedExportComponentProps>(
   () =>
-    import("../components/NamedExportComponent").then(
+    import("../components/DynamicImport/NamedExportComponent").then(
       ({ NamedExportComponentWithProps }) => NamedExportComponentWithProps
     )
 );
